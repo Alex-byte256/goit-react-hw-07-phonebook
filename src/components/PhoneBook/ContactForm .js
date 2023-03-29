@@ -1,10 +1,13 @@
 
-import PropTypes from 'prop-types';
 import css from './ContactForm.module.css'
 import { useState } from 'react';
+import { addContact, fetchContacts } from '../../redux/api';
+import { nanoid } from 'nanoid';
+import { useDispatch, useSelector } from 'react-redux';
 
-function ContactForm (props){
-
+function ContactForm (){
+  const dispatch = useDispatch()
+  const contacts = useSelector(state => state.contacts.contacts.items)
   const [name,setName] = useState("");
   const [number,setNumber] = useState("");
 
@@ -22,16 +25,25 @@ function ContactForm (props){
     }
   }
 
-  const handleOnSubmit = (e) => {
-    props.onSubmit(e)
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const index = contacts.find(item => item.name.toLowerCase() === event.target.name.value.toLowerCase());
+    if (index) {
+      alert("Контакт з таким іменем уже присутній")
+      return;
+    }
     setName("");
     setNumber("")
+    dispatch(addContact(
+      { name:event.target.name.value,phone:event.target.number.value, id: nanoid(10)}
+    )).then(()=>dispatch(fetchContacts()))
+
   }
 
 
         return(
           <>
-            <form className={css.form} onSubmit={handleOnSubmit}  >
+            <form className={css.form} onSubmit={handleSubmit}  >
               <input
                 value={name}
                 onChange={handleOnChange}
@@ -59,8 +71,6 @@ function ContactForm (props){
 
 }
 
-ContactForm.propTypes = {
-    onSubmit: PropTypes.func
-}
+
 
 export default ContactForm;

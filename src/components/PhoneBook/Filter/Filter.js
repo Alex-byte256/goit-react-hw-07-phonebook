@@ -1,22 +1,24 @@
-import { Component } from 'react';
-import PropTypes from 'prop-types';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { updateFilter } from '../../../redux/reducers';
 
 
 
-class Filter extends  Component{
+function Filter (){
+  const dispatch = useDispatch()
+  const filter = useSelector(state => state.contacts.filter)
 
-  render() {
+  const changeFilter = (e) => {
+    dispatch(updateFilter(e.target.value))
+  }
+
     return(
       <label>Find Contacts by name
-        <input name="filter" type='text' value={this.props.value} onChange={this.props.onChange}/>
+        <input name="filter" type='text' value={filter} onChange={changeFilter}/>
       </label>
     )
-  }
 }
 
-Filter.propTypes = {
-  value: PropTypes.string,
-  onChange: PropTypes.func
-}
+
 
 export default Filter;
