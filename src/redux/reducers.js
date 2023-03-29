@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { addContact, deleteContact, fetchContacts } from './api';
 
+
+
 const initialState ={
   contacts: {
     items: [],
@@ -57,6 +59,5 @@ export const mySlice = createSlice({
     },
   },
 })
-
 
 export const { updateFilter  } = mySlice.actions;

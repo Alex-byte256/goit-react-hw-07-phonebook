@@ -28,9 +28,14 @@ function  App (){
       return;
     }
     dispatch(addContact(
-      { name:event.target.name.value,phone:event.target.number.value, id: nanoid(10) }
-    ))
+      { name:event.target.name.value,phone:event.target.number.value, id: nanoid(10)}
+    )).then(()=>dispatch(fetchContacts()))
+
   }
+
+  // dispatch(addContact(
+  //   { name:event.target.name.value,phone:event.target.number.value, id: nanoid(10) }
+  // ))
 
   const changeFilter = (e) => {
     dispatch(updateFilter(e.target.value))
